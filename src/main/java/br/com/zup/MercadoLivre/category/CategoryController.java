@@ -17,7 +17,7 @@ public class CategoryController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<CategoryResponseDTO> create(@RequestBody @Valid CategoryDTO dto) {
+    public ResponseEntity<CategoryResponse> create(@RequestBody @Valid CategoryRequest dto) {
         Category category = dto.toModel(em);
         em.persist(category);
 

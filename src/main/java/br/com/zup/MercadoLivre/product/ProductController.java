@@ -17,7 +17,7 @@ public class ProductController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<ProductResponseDTO> create(@RequestBody @Valid ProductDTO dto) {
+    public ResponseEntity<ProductResponse> create(@RequestBody @Valid ProductRequest dto) {
         Product product = dto.toModel(em);
         em.persist(product);
 
@@ -26,9 +26,9 @@ public class ProductController {
 
     @PutMapping("/{id}/images")
     @Transactional
-    public ResponseEntity<ProductImagesDTO> updateProductImages(
+    public ResponseEntity<ProductImagesRequest> updateProductImages(
         @PathVariable Integer id,
-        @RequestBody @Valid ProductImagesDTO dto
+        @RequestBody @Valid ProductImagesRequest dto
     ) {
         Product product = Product.findProductById(em, id);
         Product.verifySameOwner(product.getUser());
@@ -40,7 +40,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     @Transactional
-    public ResponseEntity<ProductResponseDTO> getById(@PathVariable Integer id) {
+    public ResponseEntity<ProductResponse> getById(@PathVariable Integer id) {
         Product product = Product.findProductById(em, id);
 
         return ResponseEntity.ok(product.toDTO());

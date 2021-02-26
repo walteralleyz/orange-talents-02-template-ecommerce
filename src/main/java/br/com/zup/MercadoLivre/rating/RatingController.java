@@ -19,7 +19,7 @@ public class RatingController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<RatingResponseDTO> create(@RequestBody @Valid RatingDTO dto) {
+    public ResponseEntity<RatingResponse> create(@RequestBody @Valid RatingRequest dto) {
         Rating rating = dto.toModel(em);
         em.persist(rating);
 

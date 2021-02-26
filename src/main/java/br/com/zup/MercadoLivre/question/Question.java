@@ -37,8 +37,8 @@ public class Question {
         this.createdAt = LocalDate.now();
     }
 
-    public QuestionResponseDTO toDTO() {
-        return new QuestionResponseDTO(
+    public QuestionResponse toDTO() {
+        return new QuestionResponse(
             title,
             createdAt,
             user.toDTO()

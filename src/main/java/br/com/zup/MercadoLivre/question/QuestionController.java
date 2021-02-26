@@ -20,7 +20,7 @@ public class QuestionController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<QuestionResponseDTO> create(@RequestBody @Valid QuestionDTO dto) {
+    public ResponseEntity<QuestionResponse> create(@RequestBody @Valid QuestionRequest dto) {
         Question question = dto.toModel(em);
         em.persist(question);
 

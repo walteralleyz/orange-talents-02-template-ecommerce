@@ -1,13 +1,15 @@
 package br.com.zup.MercadoLivre.checkout;
 
-import br.com.zup.MercadoLivre.annotation.ExistsEnum;
 import br.com.zup.MercadoLivre.annotation.QuantityAvailable;
-import br.com.zup.MercadoLivre.payment.PaymentEnum;
 import br.com.zup.MercadoLivre.product.Product;
 
 import javax.persistence.EntityManager;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+
+import static br.com.zup.MercadoLivre.payment.PaymentType.verifyPayment;
+import static br.com.zup.MercadoLivre.checkout.CheckoutStatus.verifyCheckout;
 
 @QuantityAvailable
 public class CheckoutDTO {
@@ -18,19 +20,17 @@ public class CheckoutDTO {
     @Positive
     private final Integer productQuantity;
 
-    @NotNull
-    @ExistsEnum(domain = "checkout")
+    @NotBlank
     private final String status;
 
-    @NotNull
-    @ExistsEnum(domain = "payment")
+    @NotBlank
     private final String payment;
 
     public CheckoutDTO(
         @NotNull Integer product_id,
         @NotNull @Positive Integer productQuantity,
-        @NotNull String status,
-        @NotNull String payment
+        @NotBlank String status,
+        @NotBlank String payment
     ) {
         this.product_id = product_id;
         this.productQuantity = productQuantity;
@@ -45,8 +45,8 @@ public class CheckoutDTO {
         return new Checkout(
             product,
             productQuantity,
-            CheckoutStatus.valueOf(status),
-            PaymentEnum.valueOf(payment)
+            verifyCheckout(status),
+            verifyPayment(payment)
         );
     }
 

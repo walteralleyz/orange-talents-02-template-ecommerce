@@ -4,6 +4,7 @@ import br.com.zup.MercadoLivre.exception.CheckoutNotFoundException;
 import br.com.zup.MercadoLivre.exception.GenericException;
 import br.com.zup.MercadoLivre.payment.*;
 import br.com.zup.MercadoLivre.product.Product;
+import br.com.zup.MercadoLivre.transaction.Transaction;
 import br.com.zup.MercadoLivre.user.User;
 
 import javax.persistence.*;
@@ -31,10 +32,10 @@ public class Checkout {
 
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
-    private PaymentEnum paymentEnum;
+    private PaymentType paymentType;
 
     @OneToMany(mappedBy = "checkout")
-    private List<Payment> payments;
+    private List<Transaction> transactions;
 
     @Deprecated
     public Checkout() {}
@@ -43,12 +44,12 @@ public class Checkout {
         Product product,
         Integer productQuantity,
         CheckoutStatus status,
-        PaymentEnum paymentEnum
+        PaymentType paymentType
     ) {
         this.product = product;
         this.productQuantity = productQuantity;
         this.status = status;
-        this.paymentEnum = paymentEnum;
+        this.paymentType = paymentType;
 
         this.client = User.getActualUser();
     }
@@ -77,8 +78,8 @@ public class Checkout {
         return status;
     }
 
-    public PaymentEnum getPayment() {
-        return paymentEnum;
+    public PaymentType getPayment() {
+        return paymentType;
     }
 
     public void sendEmailToSeller() {
@@ -94,7 +95,7 @@ public class Checkout {
     }
 
     public void verifyItsAlreadySuccess() {
-        List<Payment> temp = payments.stream().filter(payment -> payment.getStatus().equals("SUCCESS")).collect(Collectors.toList());
+        List<Transaction> temp = transactions.stream().filter(payment -> payment.getStatus().equals("SUCCESS")).collect(Collectors.toList());
 
         if(temp.size() == 2) throw new GenericException("status", "Quantidade máxima de transações alcançada");
     }

@@ -38,8 +38,8 @@ public class User implements UserDetails {
         this.createdAt = LocalDate.now();
     }
 
-    public UserResponseDTO toDTO() {
-        return new UserResponseDTO(
+    public UserResponse toDTO() {
+        return new UserResponse(
             login,
             createdAt
         );

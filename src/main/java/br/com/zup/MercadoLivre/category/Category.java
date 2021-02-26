@@ -25,8 +25,8 @@ public class Category {
         this.name = name;
     }
 
-    public CategoryResponseDTO toDTO() {
-        return new CategoryResponseDTO(name, category);
+    public CategoryResponse toDTO() {
+        return new CategoryResponse(name, category);
     }
 
     public void setId(Integer id) {

@@ -25,8 +25,8 @@ public class Images {
         this.product = product;
     }
 
-    public ImagesDTO toDTO() {
-        return new ImagesDTO(link, product.getId());
+    public ImagesRequest toDTO() {
+        return new ImagesRequest(link, product.getId());
     }
 
     public Integer getId() {

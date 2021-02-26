@@ -19,7 +19,7 @@ public class UserController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<UserDTO> create(@RequestBody @Valid UserDTO dto) {
+    public ResponseEntity<UserRequest> create(@RequestBody @Valid UserRequest dto) {
         User user = dto.toModel();
         em.persist(user);
 

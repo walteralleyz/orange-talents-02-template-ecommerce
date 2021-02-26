@@ -87,8 +87,8 @@ public class Product {
         this.user = getActualUser();
     }
 
-    public ProductResponseDTO toDTO() {
-        return new ProductResponseDTO(
+    public ProductResponse toDTO() {
+        return new ProductResponse(
             name,
             price,
             quantity,

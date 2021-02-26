@@ -41,8 +41,8 @@ public class Rating {
         this.user = User.getActualUser();
     }
 
-    public RatingResponseDTO toDTO() {
-        return new RatingResponseDTO(
+    public RatingResponse toDTO() {
+        return new RatingResponse(
             level,
             title,
             description,
