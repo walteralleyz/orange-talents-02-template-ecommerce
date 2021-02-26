@@ -1,5 +1,7 @@
 package br.com.zup.MercadoLivre.payment;
 
+import br.com.zup.MercadoLivre.exception.EnumException;
+
 public enum PaymentEnum {
     PAYPAL(new Paypal()),
     PAGSEGURO(new PagSeguro());
@@ -12,5 +14,13 @@ public enum PaymentEnum {
 
     public IPayment getPayment() {
         return payment;
+    }
+
+    public static PaymentEnum verifyPayment(String payment) {
+        try {
+            return PaymentEnum.valueOf(payment);
+        } catch (IllegalArgumentException e) {
+            throw new EnumException("payment");
+        }
     }
 }

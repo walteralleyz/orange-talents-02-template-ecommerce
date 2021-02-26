@@ -1,15 +1,15 @@
 package br.com.zup.MercadoLivre.checkout;
 
 import br.com.zup.MercadoLivre.exception.CheckoutNotFoundException;
-import br.com.zup.MercadoLivre.payment.IPayment;
-import br.com.zup.MercadoLivre.payment.PagSeguro;
-import br.com.zup.MercadoLivre.payment.PaymentEnum;
-import br.com.zup.MercadoLivre.payment.Paypal;
+import br.com.zup.MercadoLivre.exception.GenericException;
+import br.com.zup.MercadoLivre.payment.*;
 import br.com.zup.MercadoLivre.product.Product;
 import br.com.zup.MercadoLivre.user.User;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Entity
 public class Checkout {
@@ -32,6 +32,9 @@ public class Checkout {
     @Column(nullable = false)
     @Enumerated(value = EnumType.STRING)
     private PaymentEnum paymentEnum;
+
+    @OneToMany(mappedBy = "checkout")
+    private List<Payment> payments;
 
     @Deprecated
     public Checkout() {}
@@ -88,5 +91,11 @@ public class Checkout {
     public static Checkout findCheckoutById(EntityManager em, int id) {
         return Optional.ofNullable(em.find(Checkout.class, id))
             .orElseThrow(() -> new CheckoutNotFoundException("id"));
+    }
+
+    public void verifyItsAlreadySuccess() {
+        List<Payment> temp = payments.stream().filter(payment -> payment.getStatus().equals("SUCCESS")).collect(Collectors.toList());
+
+        if(temp.size() == 2) throw new GenericException("status", "Quantidade máxima de transações alcançada");
     }
 }

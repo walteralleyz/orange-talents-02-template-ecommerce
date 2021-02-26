@@ -29,7 +29,7 @@ public class CheckoutController {
         em.persist(checkout);
         IPayment payment = checkout.getPayment().getPayment();
 
-        String paymentUri = String.format("/payment/%s/{id}", checkout.getPayment().toString().toLowerCase());
+        String paymentUri = String.format("/payment/%s/{id}", checkout.getPayment().toString());
 
         URI uri = new URI(payment.getLink(
             checkout.getId().toString(),

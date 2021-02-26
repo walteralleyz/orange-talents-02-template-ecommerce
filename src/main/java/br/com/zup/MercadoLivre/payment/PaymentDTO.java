@@ -3,13 +3,13 @@ package br.com.zup.MercadoLivre.payment;
 import br.com.zup.MercadoLivre.annotation.ExistsEnum;
 import br.com.zup.MercadoLivre.checkout.Checkout;
 import br.com.zup.MercadoLivre.checkout.CheckoutStatus;
-import br.com.zup.MercadoLivre.exception.EnumException;
 import br.com.zup.MercadoLivre.exception.GenericException;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
 
 import static br.com.zup.MercadoLivre.checkout.Checkout.findCheckoutById;
+import static br.com.zup.MercadoLivre.payment.PaymentEnum.verifyPayment;
 
 public class PaymentDTO {
     @NotBlank
@@ -31,10 +31,11 @@ public class PaymentDTO {
     public Payment toModel(EntityManager em) {
         Checkout checkout = findCheckoutById(em, checkout_id);
         checkout.setStatus(CheckoutStatus.CONCLUIDA);
+        checkout.verifyItsAlreadySuccess();
 
         return new Payment(
             checkout,
-            PaymentEnum.valueOf(payment),
+            verifyPayment(payment),
             status
         );
     }
@@ -45,17 +46,16 @@ public class PaymentDTO {
     }
 
     private void setStatus(String status) {
-        if(status == null) throw new GenericException("status", "Não pode ser nulo");
-        this.status = status;
+        if(status.equals("0") || status.equals("ERRO"))
+            this.status = "ERRO";
+        else if(status.equals("1") || status.equals("SUCESSO"))
+            this.status = "SUCESSO";
+        else
+            throw new GenericException("status", "Não pode ser nulo, ou deve ser igual a SUCESSO/ERRO");
     }
 
     private void setPayment(String payment) {
-        try {
-            PaymentEnum.valueOf(payment);
-        } catch (IllegalArgumentException e) {
-            throw new EnumException("payment");
-        }
-
+        if(payment == null) throw new GenericException("payment", "Campo payment deve estar presente");
         this.payment = payment;
     }
 

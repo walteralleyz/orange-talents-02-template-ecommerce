@@ -5,6 +5,8 @@ import br.com.zup.MercadoLivre.checkout.Checkout;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+import static br.com.zup.MercadoLivre.payment.PaymentEnum.verifyPayment;
+
 @Entity
 @Table(name = "payments")
 public class Payment {
@@ -68,5 +70,19 @@ public class Payment {
         System.out.printf("Status da Compra %d = %s.%n",
             checkout.getId(), status
         );
+    }
+
+    public static Payment findPayment(String pay, Integer id, String status, EntityManager em) {
+        Query query = em.createQuery("select p from Payment p where p.payment = :pay and p.checkout.id = :id and p.status = :status");
+
+        query.setParameter("pay", verifyPayment(pay));
+        query.setParameter("id", id);
+        query.setParameter("status", status);
+
+        try {
+            return (Payment) query.getSingleResult();
+        } catch (NoResultException e) {
+            return new Payment();
+        }
     }
 }

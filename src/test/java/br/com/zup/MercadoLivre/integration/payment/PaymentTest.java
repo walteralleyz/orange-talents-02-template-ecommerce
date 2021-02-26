@@ -41,20 +41,44 @@ public class PaymentTest {
     @Test
     @DisplayName(value = "Criando um pagamento")
     @WithUserDetails("user@mail.com")
-    public void shouldCreateAPayment() throws Exception {
-        URI uri = new URI("/api/payment/PAYPAL/1/sucesso");
+    public void myTestA() throws Exception {
+        URI uri = new URI("/api/payment/PAYPAL/1/SUCESSO");
         requestBuilder.uri(uri).content("test").status(200).get();
+    }
 
-        Payment payment = manager.getBy("checkout.id", 1);
+    @Test
+    @DisplayName(value = "Criando um pagamento com pagseguro")
+    @WithUserDetails("user@mail.com")
+    public void myTestB() throws Exception {
+        URI uri = new URI("/api/payment/PAGSEGURO/1/1");
+        requestBuilder.uri(uri).content("test").status(200).get();
+    }
 
-        Assertions.assertEquals(PaymentEnum.PAYPAL, payment.getPayment());
+    @Test
+    @DisplayName(value = "Criando um pagamento com pagseguro e status erro")
+    @WithUserDetails("user@mail.com")
+    public void myTestC() throws Exception {
+        URI uri = new URI("/api/payment/PAGSEGURO/1/0");
+        String response = requestBuilder.uri(uri).content("test").status(400).get();
+
+        System.out.println(response);
+    }
+
+    @Test
+    @DisplayName(value = "Criando um pagamento com pagseguro, a mesma compra e outro status")
+    @WithUserDetails("user@mail.com")
+    public void myTestD() throws Exception {
+        URI uri = new URI("/api/payment/PAGSEGURO/1/0");
+        String response = requestBuilder.uri(uri).content("test").status(400).get();
+
+        System.out.println(response);
     }
 
     @Test
     @DisplayName(value = "Enviar uma uri com recursos inválidos")
     @WithUserDetails("user@mail.com")
-    public void shouldNotCreateAPaymentWithWrongResources() throws Exception {
-        URI uri = new URI("/api/payment/ELO/1/sucesso");
+    public void myTestE() throws Exception {
+        URI uri = new URI("/api/payment/ELO/1/SUCESSO");
         String response = requestBuilder.uri(uri).content("test").status(400).get();
 
         System.out.println(response);
