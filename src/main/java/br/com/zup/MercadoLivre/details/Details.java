@@ -27,8 +27,8 @@ public class Details {
         this.text = text;
     }
 
-    public DetailsDTO toDTO() {
-        return new DetailsDTO(title, text);
+    public DetailsRequest toDTO() {
+        return new DetailsRequest(title, text);
     }
 
     public Integer getId() {

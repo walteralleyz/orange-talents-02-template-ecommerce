@@ -1,7 +1,7 @@
 package br.com.zup.MercadoLivre.validation;
 
 import br.com.zup.MercadoLivre.annotation.QuantityAvailable;
-import br.com.zup.MercadoLivre.checkout.CheckoutDTO;
+import br.com.zup.MercadoLivre.checkout.CheckoutRequest;
 import br.com.zup.MercadoLivre.exception.ProductQuantityException;
 import br.com.zup.MercadoLivre.product.Product;
 
@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ValidationQuantity implements ConstraintValidator<QuantityAvailable, CheckoutDTO> {
+public class ValidationQuantity implements ConstraintValidator<QuantityAvailable, CheckoutRequest> {
     @PersistenceContext
     private EntityManager em;
 
@@ -19,7 +19,7 @@ public class ValidationQuantity implements ConstraintValidator<QuantityAvailable
     }
 
     @Override
-    public boolean isValid(CheckoutDTO object, ConstraintValidatorContext context) {
+    public boolean isValid(CheckoutRequest object, ConstraintValidatorContext context) {
         Product product = Product.findProductById(em, object.getProduct_id());
         boolean enough = product.getQuantity() >= object.getProductQuantity();
 

@@ -6,7 +6,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-public class UserLoginDTO {
+public class UserLoginRequest {
     @Email
     private final String login;
 
@@ -14,7 +14,7 @@ public class UserLoginDTO {
     @Size(min = 6)
     private final String password;
 
-    public UserLoginDTO(@Email String login, @NotBlank @Size(min = 6) String password) {
+    public UserLoginRequest(@Email String login, @NotBlank @Size(min = 6) String password) {
         this.login = login;
         this.password = password;
     }

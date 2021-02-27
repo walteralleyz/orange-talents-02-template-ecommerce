@@ -2,7 +2,7 @@ package br.com.zup.MercadoLivre.product;
 
 import br.com.zup.MercadoLivre.category.Category;
 import br.com.zup.MercadoLivre.details.Details;
-import br.com.zup.MercadoLivre.details.DetailsDTO;
+import br.com.zup.MercadoLivre.details.DetailsRequest;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.*;
@@ -22,7 +22,7 @@ public class ProductRequest {
     private final Integer quantity;
 
     @Size(min = 3)
-    private final List<DetailsDTO> details;
+    private final List<DetailsRequest> details;
 
     @NotBlank
     @Size(max = 1000)
@@ -35,7 +35,7 @@ public class ProductRequest {
         @NotBlank String name,
         @NotNull @Positive BigDecimal price,
         @Min(value = 0) Integer quantity,
-        @Size(min = 3) List<DetailsDTO> details,
+        @Size(min = 3) List<DetailsRequest> details,
         @Size(min = 1000) String description,
         @NotNull Integer category_id
     ) {
@@ -71,7 +71,7 @@ public class ProductRequest {
         return quantity;
     }
 
-    public List<DetailsDTO> getDetails() {
+    public List<DetailsRequest> getDetails() {
         return details;
     }
 

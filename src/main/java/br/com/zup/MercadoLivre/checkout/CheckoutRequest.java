@@ -12,7 +12,7 @@ import static br.com.zup.MercadoLivre.payment.PaymentType.verifyPayment;
 import static br.com.zup.MercadoLivre.checkout.CheckoutStatus.verifyCheckout;
 
 @QuantityAvailable
-public class CheckoutDTO {
+public class CheckoutRequest {
     @NotNull
     private final Integer product_id;
 
@@ -26,16 +26,20 @@ public class CheckoutDTO {
     @NotBlank
     private final String payment;
 
-    public CheckoutDTO(
+    public CheckoutRequest(
         @NotNull Integer product_id,
         @NotNull @Positive Integer productQuantity,
         @NotBlank String status,
         @NotBlank String payment
     ) {
+        CheckoutValidator validator = new CheckoutValidator(this);
+
         this.product_id = product_id;
         this.productQuantity = productQuantity;
         this.status = status;
         this.payment = payment;
+
+        validator.execute();
     }
 
     public Checkout toModel(EntityManager em) {

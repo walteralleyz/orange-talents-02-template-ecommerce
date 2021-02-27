@@ -1,6 +1,6 @@
 package br.com.zup.MercadoLivre.security;
 
-import br.com.zup.MercadoLivre.user.UserLoginDTO;
+import br.com.zup.MercadoLivre.user.UserLoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +25,7 @@ public class SecurityController {
     private SecurityTokenService service;
 
     @PostMapping
-    public ResponseEntity<SecurityTokenDTO> authentication(@RequestBody @Valid UserLoginDTO dto) {
+    public ResponseEntity<SecurityTokenDTO> authentication(@RequestBody @Valid UserLoginRequest dto) {
         UsernamePasswordAuthenticationToken login = dto.converter();
 
         try {

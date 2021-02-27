@@ -17,8 +17,12 @@ public class ImagesRequest {
     public ImagesRequest() {}
 
     public ImagesRequest(@NotBlank String link, @NotNull Integer product_id) {
+        ImagesValidator validator = new ImagesValidator(this);
+
         this.product_id = product_id;
         this.link = link;
+
+        validator.execute();
     }
 
     public Images toModel(EntityManager em) {

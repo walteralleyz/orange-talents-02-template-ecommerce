@@ -2,20 +2,21 @@ package br.com.zup.MercadoLivre.details;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-import static br.com.zup.MercadoLivre.product.Product.findProductById;
-
-public class DetailsDTO {
+public class DetailsRequest {
     @NotBlank
     private final String title;
 
     @NotBlank
     private final String text;
 
-    public DetailsDTO(@NotBlank String title, @NotBlank String text) {
+    public DetailsRequest(@NotBlank String title, @NotBlank String text) {
+        DetailsValidator validator = new DetailsValidator(this);
+
         this.title = title;
         this.text = text;
+
+        validator.execute();
     }
 
     public Details toModel(EntityManager em) {

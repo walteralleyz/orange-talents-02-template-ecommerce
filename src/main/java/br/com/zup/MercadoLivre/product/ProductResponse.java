@@ -1,7 +1,7 @@
 package br.com.zup.MercadoLivre.product;
 
 import br.com.zup.MercadoLivre.category.Category;
-import br.com.zup.MercadoLivre.details.DetailsDTO;
+import br.com.zup.MercadoLivre.details.DetailsRequest;
 import br.com.zup.MercadoLivre.images.Images;
 import br.com.zup.MercadoLivre.question.Question;
 import br.com.zup.MercadoLivre.rating.Rating;
@@ -17,7 +17,7 @@ public class ProductResponse {
     private final String name;
     private final BigDecimal price;
     private final Integer quantity;
-    private final List<DetailsDTO> details;
+    private final List<DetailsRequest> details;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private final List<Images> images;
@@ -36,7 +36,7 @@ public class ProductResponse {
         String name,
         BigDecimal price,
         Integer quantity,
-        List<DetailsDTO> details,
+        List<DetailsRequest> details,
         List<Images> images,
         List<Question> questions,
         List<Rating> ratings,
@@ -68,7 +68,7 @@ public class ProductResponse {
         return quantity;
     }
 
-    public List<DetailsDTO> getDetails() {
+    public List<DetailsRequest> getDetails() {
         return details;
     }
 

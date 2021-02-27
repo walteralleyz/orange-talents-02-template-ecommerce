@@ -23,7 +23,7 @@ public class CheckoutController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<?> create(@RequestBody @Valid CheckoutDTO dto, UriComponentsBuilder builder) throws URISyntaxException {
+    public ResponseEntity<?> create(@RequestBody @Valid CheckoutRequest dto, UriComponentsBuilder builder) throws URISyntaxException {
         Checkout checkout = dto.toModel(em);
         checkout.sendEmailToSeller();
         em.persist(checkout);
